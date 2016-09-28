@@ -1,0 +1,28 @@
+= Formation Spring Cloud
+
+= Qu'est-ce que Spring Cloud
+
+== Pour quel besoins ?
+
+== ADN d'un microservice Spring Cloud
+
+= Architectures microservices
+
+* Service Discovery
+* Routage
+* Gestion des appels inter services
+* Load Balancing
+* Gestion de locks
+* Messagerie distribué
+* Traces distribuées
+
+== Modules Spring Cloud
+
+* Spring Cloud Config
+* Spring Cloud Netflix
+* Spring Cloud Stream
+* Spring Cloud Bus
+* Spring Cloud Sleuth
+* Spring Cloud Conseul
+* Spring Cloud Zookeeper
+* Spring Cloud Security
