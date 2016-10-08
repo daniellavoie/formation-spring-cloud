@@ -1,0 +1,11 @@
+version : '2'
+
+services:
+  mysql:
+    image: tutum/mysql
+    environment:
+      - MYSQL_PASS=test
+      - MYSQL_USER=test
+      - ON_CREATE_DB=test
+    ports:
+      - 3306
