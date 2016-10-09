@@ -5,17 +5,17 @@ Formation Spring Cloud
 :backend:   slidy
 :max-width: 45em
 :data-uri:
-:icons:
+:icons: font
 
-Qu'est-ce qu'une application distribué moderne ?
-------------------------------------------------
+++++
+<link rel="stylesheet"  href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/3.1.0/css/font-awesome.min.css">
+++++
+
+Les applications distribuées modernes ?
+---------------------------------------
 
 Aujourd'hui, le mot d'ordre est haute disponibilité et scalabilité.
 Comment garantir que notre système respectera cette contrainte ?
-Tout simplement en assumant qu'inévitablement, il crashera.
-Nous ne pourrons jamais prévenir la perte d'un dataserver, du réseau ou encore
-d'un disque dûr. Suffit donc de concevoir un système qui apprend à
-vivre avec ce type de panne.
 
 Quelques pistes pour la haute disponibilité
 -------------------------------------------
@@ -28,7 +28,10 @@ Quelques pistes pour la haute disponibilité
 Bref...
 -------
 
-== Des microservices !
+[.text-center]
+[big]*Des microservices !* +
+
+image::images/solutions/microservices.png[]
 
 Pourquoi un déploiement multi instance ?
 ----------------------------------------
@@ -71,7 +74,7 @@ ne peut pas connaître la topologie physique des services déployés.
 image::images/problems/routage-1.png[]
 
 Et la haute disponibilité c'est gratuit ?
------------------------------------------
+----------------------------------------
 
 Et bien non ! Eclater un service à travers le réseau n'a pas que des avantages.
 Une architecture orienté micro service est certe plus  élastique et maléable,
@@ -89,6 +92,14 @@ Un petit rappel
 ---------------
 
 image::images/problems/monolith-microservices.jpg[]
+
+Les dangers des microservices
+-----------------------------
+
+image::images/problems/microservice-problems.png[]
+
+[.text-right]
+Source : http://trustmeiamadeveloper.com/
 
 Sans Service Discovery
 ----------------------
@@ -277,11 +288,14 @@ Quelques modules exemples Spring Boot
                                     MongoDB en incluant spring-data-mongodb.
 |======================
 
+.Liste complête de tous les starters
+[NOTE]
+http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#using-boot-starter
+
 Concepts Clés de Spring Boot
 ----------------------------
 
-==== Préparation d'un pom.xml
-
+.Préparation d'un pom.xml
 [source,xml]
 ----
   <parent>
@@ -291,8 +305,7 @@ Concepts Clés de Spring Boot
   </parent>
 ----
 
-==== Dépendences minimales
-
+.Dépendences minimales
 [source,xml]
 ----
   <dependencies>
@@ -302,6 +315,14 @@ Concepts Clés de Spring Boot
     </dependency>
   </dependencies>
 ----
+
+Concepts Clés de Spring Boot
+----------------------------
+
+++++
+<div class="title">Exemple complet</div>
+<script src="https://gist.github.com/daniellavoie/79d555e1f088b3b0e0ecbd9439defe33.js"></script>
+++++
 
 Concepts Clés de Spring Boot
 ----------------------------
@@ -369,20 +390,25 @@ Atelier 1 - Injection de dépendences
 
 * Démarrage d'un conteneur Spring
 * Injection de dépendencence.
+* Injection de configuration.
 * Test unitaire et test d'intégration.
+
+.A mettre en favoris
+[NOTE]
+http://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-external-config.html[Gestion de configuration avec Spring Boot]
 
 Atelier 2 - Web Service JSON
 ----------------------------
 
 * Exposition de web service
-* Couche de persistence avec Spring Data JPA et h2.
+* Couche de persistence le JDBC Template.
 * Sécurisation des web services.
 * Tests des web services
 
-==== Pour aider à l'atelier
-
-* MySQL avec Docker : https://github.com/daniellavoie/formation-spring-cloud
-* Scripts SQL : https://github.com/daniellavoie/formation-spring-cloud
+.Pour aider à l'atelier
+[NOTE]
+https://raw.githubusercontent.com/daniellavoie/formation-spring-cloud/master/docker/atelier-2-mysql/docker-compose.yml[MySQL avec Docker] +
+https://raw.githubusercontent.com/daniellavoie/formation-spring-cloud/master/sql/atelier-2-mysql.sql[Scripts SQL]
 
 Atelier 3 - Persistence avec Spring Data
 ----------------------------------------
@@ -390,24 +416,76 @@ Atelier 3 - Persistence avec Spring Data
 * Mise en place de Spring Data JPA
 * Intégration base de données h2
 
+.A mettre en favoris
+[NOTE]
+http://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-sql.html[Reference SQL avec Spring Boot] +
+http://docs.spring.io/spring-data/jpa/docs/current/reference/html[Reference Spring Data JPA]
 
-==== A mettre dans vos favoris
+Atelier 4 - Client Rest
+-----------------------
 
-* http://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-sql.html
-* http://docs.spring.io/spring-data/jpa/docs/current/reference/html
+* Utilisation du RestTemplate
 
-Atelier 2 - Web Service Spring Boot Sécurisé
---------------------------------------------
+.A lire tous les soirs
+[NOTE]
+http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html[Configurations par défaut de Spring Boot]
 
-Qu'est-ce que Spring Cloud ?
-----------------------------
+Petite synthèse sur Spring Boot
+-------------------------------
 
-Spring Cloud est une toolbox offrant des solutions aux différentes
-problématiques que représentent les systèmes distribué (par exemple :
-gestion de configuration, annuaire de service, load balancing, routage,
-coupe circuits, etc). Le framework facilite la communication inter process tout
-en assurant que les différents services ne soit pas couplés autre que par le
-model de données.
+* Accélère le développement de Web Services
+* Proposes des modules spring pré configurés.
+* Permet de packager une application standalone.
+* Service léger et interopérable
+
+Spring Boot ne suffit-il pas ?
+-------------------------------
+
+Spring Boot est un outil formidable permettant d'obtenir une productivité
+difficile à retrouver ailleurs. Naturellement, beaucoup de système basé
+sur les microservices ont émergés sur une base de Spring Boot.
+
+Ces systèmes ont tous été confrontés aux problématiques des architectures
+distribués.
+Pivotal et Netflix ont donc travaillé en compération pour offrir des solutions
+à ces problèmes basé sur leur expérience en production.
+
+Spring Cloud !
+--------------
+
+Spring Cloud est extension de Spring Boot offrant des solutions aux
+différentes problématiques que représentent les systèmes distribués
+(par exemple :  gestion de configuration, annuaire de service, load balancing,
+routage, coupe circuits, etc).
+Le framework facilite la communication inter process tout en assurant que les
+différents services ne soit pas couplés autre que par le model de données.
+
+Pour résumer, Spring Cloud facilite la communication entre applications
+développé avec  Spring Boot.
+
+Utiliser Spring Cloud dans une application Spring Boot
+------------------------------------------------------
+
+Rien de plus simple ! Il suffit de créer une application Spring Boot qui
+importe des dépendences Spring Cloud.
+
+[source,xml]
+.pom.xml
+----
+  ...
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-dependencies</artifactId>
+        <version>Camdem</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+  ...
+----
 
 Modules Spring Cloud
 --------------------
@@ -430,16 +508,116 @@ Modules Spring Cloud
 Spring Cloud Config
 -------------------
 
-TBD
+Une gestion de configuration centralisé se présente comme un des première
+problématique à laquelle nous devons répondre sur une architecture microservice.
 
-Spring Cloud Config - Server
-----------------------------
+Le projet Spring Cloud mêt donc à disposition des modules Spring Boot qui
+permettent construire un serveur de configuration ainsi que des clients pouvant
+être utilisé par des applications Spring Boot.
 
-- Endpoints
-- Backends
-- Applications
-- Profiles
+Spring Cloud Config Server
+--------------------------
 
+Le module Spring Cloud Config Server va servir d'interface HTTP à un backend de
+configuration. Par défaut, le Config Server utilise un backend `git`. Des
+implémentations peuvent être fourni pour supporter n'importe quel autre type
+de repository. Cependant, `git` offre des fonctionnalités naturel aux concepts
+suivies par le Config Server.
+
+L'avantage du `Spring Cloud Config Server` résident dans les configurations
+chargé depuis le service sont disponible à l'injection pour l'application.
+Ce mécanisme s'insère nativement dans la gestion de configuration de Spring
+Boot. Les `ConfigurationProperties` et `@Value` peuvent donc être utilisés sans
+égard sur la provenance des configurations.
+
+Quelques concepts du Config Server
+----------------------------------
+
+Application::
+Un client sur `Config Server` doit reseigner le nom de son application avec la
+propriété `spring.application.name`. Ce nom sera utilisé dans la résolution de
+configuration sur le serveur.
+
+Profile::
+Un profil est une information complémentaire qui se grèffe dans la demande de
+configuration. En pratique, le profile peut être utilisé pour spécifier
+l'environment de l'instance application (ex : dev, test, hom, prod).
+
+.Priorité des configurations
+Le chargement des configurations servit par le serveur se fera en chargant par
+ordre de priorité les fichiers suivants :
+
+. *nom-application*-*profile*.properties
+. application-*profile*.properties
+. *nom-application*.properties
+. application.properties
+
+Implémentation d'un Config Server
+---------------------------------
+
+Implémenter un config server est très simple. Il s'agit d'une simple application
+Spring Boot avec des dépendences spécifique et sur laquelle l'annotation
+`@EnableConfigServer` a été déclaré. C'est le minimum requis pour obtenir un
+serveur de configuration.
+
+* Importation de `org.springframework.cloud:spring-cloud-config-server`.
+* Déclaration de `@EnableConfigServer`.
+* Configuration du backend de configuration dans `application.properties`.
+
+Implémentation d'un Config Server
+---------------------------------
+
+.Importation des dépendences
+[source,xml]
+.pom.xml
+----
+  ...
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-dependencies</artifactId>
+        <version>Camdem</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+  ...
+----
+
+Implémentation d'un Config Server
+---------------------------------
+
+.Déclaration du @EnableConfigServer
+[source,xml]
+.ConfigServer.java
+----
+package com.invivoo.springcloud.configserver;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.config.server.EnableConfigServer;
+
+@EnableConfigServer
+@SpringBootApplication
+public class ConfigServer {
+  public static void main(String[] args) {
+    SpringApplication.run(ConfigServer.class, args);
+  }
+}
+----
+
+Implémentation d'un Config Server
+---------------------------------
+
+.Configuration du Config Server
+[source]
+.application.properties
+----
+server.port: 8888
+spring.cloud.config.server.git.uri: file://${user.home}/config-repo
+----
 
 Spring Cloud Config - Client
 ----------------------------
