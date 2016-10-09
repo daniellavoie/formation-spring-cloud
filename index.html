@@ -15290,7 +15290,7 @@ n2N8MOjF8cU75h+YIq1wvhYfNdNL4YiMIY9nLFz9bq0hg1xghLZ5kLejQ0nt0j1Z/B/ix04+ZJ+Z
 <div class="sectionbody" style="max-width:45em">
 <div class="paragraph"><p>Et bien non ! Eclater un service à travers le réseau n&#8217;a pas que des avantages.
 Une architecture orienté micro service est certe plus  élastique et maléable,
-cependant elle introduit des réalités pour lesquels des solutions sont
+cependant elle introduit des contraintres pour lesquels des solutions sont
 nécessaire.</p></div>
 <ul class="">
 <li>
@@ -27642,7 +27642,7 @@ http://www.gnu.org/software/src-highlite -->
       <span style="font-weight: bold"><span style="color: #0000FF">&lt;dependency&gt;</span></span>
         <span style="font-weight: bold"><span style="color: #0000FF">&lt;groupId&gt;</span></span>org.springframework.cloud<span style="font-weight: bold"><span style="color: #0000FF">&lt;/groupId&gt;</span></span>
         <span style="font-weight: bold"><span style="color: #0000FF">&lt;artifactId&gt;</span></span>spring-cloud-dependencies<span style="font-weight: bold"><span style="color: #0000FF">&lt;/artifactId&gt;</span></span>
-        <span style="font-weight: bold"><span style="color: #0000FF">&lt;version&gt;</span></span>Camdem<span style="font-weight: bold"><span style="color: #0000FF">&lt;/version&gt;</span></span>
+        <span style="font-weight: bold"><span style="color: #0000FF">&lt;version&gt;</span></span>Camden.RELEASE<span style="font-weight: bold"><span style="color: #0000FF">&lt;/version&gt;</span></span>
         <span style="font-weight: bold"><span style="color: #0000FF">&lt;type&gt;</span></span>pom<span style="font-weight: bold"><span style="color: #0000FF">&lt;/type&gt;</span></span>
         <span style="font-weight: bold"><span style="color: #0000FF">&lt;scope&gt;</span></span>import<span style="font-weight: bold"><span style="color: #0000FF">&lt;/scope&gt;</span></span>
       <span style="font-weight: bold"><span style="color: #0000FF">&lt;/dependency&gt;</span></span>
@@ -27758,21 +27758,52 @@ Boot. Les <code>ConfigurationProperties</code> et <code>@Value</code> peuvent do
 <div class="sect1 slide">
 <h1 id="_quelques_concepts_du_config_server">Quelques concepts du Config Server</h1>
 <div class="sectionbody" style="max-width:45em">
-<div class="sect2">
-<h3 id="_application">Application</h3>
-<div class="paragraph"><p>Un client sur <code>Config Server</code> doit reseigner le nom de son application avec la
+<div class="dlist"><dl class="">
+<dt class="hdlist1">
+Application
+</dt>
+<dd>
+<p>
+Un client sur <code>Config Server</code> doit reseigner le nom de son application avec la
 propriété <code>spring.application.name</code>. Ce nom sera utilisé dans la résolution de
-configuration sur le serveur.</p></div>
-</div>
-<div class="sect2">
-<h3 id="_profile">Profile</h3>
-<div class="paragraph"><p>Un profil est une information complémentaire qui se grèffe dans la demande de
+configuration sur le serveur.
+</p>
+</dd>
+<dt class="hdlist1">
+Profile
+</dt>
+<dd>
+<p>
+Un profil est une information complémentaire qui se grèffe dans la demande de
 configuration. En pratique, le profile peut être utilisé pour spécifier
-l&#8217;environment de l&#8217;instance application (ex : dev, test, hom, prod).</p></div>
-</div>
-<div class="sect2">
-<h3 id="_priorité_des_configurations">Priorité des configurations</h3>
-</div>
+l&#8217;environment de l&#8217;instance application (ex : dev, test, hom, prod).
+</p>
+</dd>
+</dl></div>
+<div class="paragraph"><div class="title">Priorité des configurations</div><p>Le chargement des configurations servit par le serveur se fera en chargant par
+ordre de priorité les fichiers suivants :</p></div>
+<ol class="arabic">
+<li>
+<span>
+<strong>nom-application</strong>-<strong>profile</strong>.properties
+</span>
+</li>
+<li>
+<span>
+application-<strong>profile</strong>.properties
+</span>
+</li>
+<li>
+<span>
+<strong>nom-application</strong>.properties
+</span>
+</li>
+<li>
+<span>
+application.properties
+</span>
+</li>
+</ol>
 </div>
 </div>
 <div class="sect1 slide">
@@ -27782,13 +27813,28 @@ l&#8217;environment de l&#8217;instance application (ex : dev, test, hom, prod).
 Spring Boot avec des dépendences spécifique et sur laquelle l&#8217;annotation
 <code>@EnableConfigServer</code> a été déclaré. C&#8217;est le minimum requis pour obtenir un
 serveur de configuration.</p></div>
+<ul class="">
+<li>
+<span>
+Importation de <code>org.springframework.cloud:spring-cloud-config-server</code>.
+</span>
+</li>
+<li>
+<span>
+Déclaration de <code>@EnableConfigServer</code>.
+</span>
+</li>
+<li>
+<span>
+Configuration du backend de configuration dans <code>application.properties</code>.
+</span>
+</li>
+</ul>
 </div>
 </div>
 <div class="sect1 slide">
 <h1 id="_implémentation_d_8217_un_config_server_2">Implémentation d&#8217;un Config Server</h1>
 <div class="sectionbody" style="max-width:45em">
-<div class="sect2">
-<h3 id="_importation_des_dépendences">Importation des dépendences</h3>
 <div class="listingblock">
 <div class="title">pom.xml</div>
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -27796,47 +27842,401 @@ by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
 <pre><tt>  ...
-  <span style="font-weight: bold"><span style="color: #0000FF">&lt;dependencyManagement&gt;</span></span>
-    <span style="font-weight: bold"><span style="color: #0000FF">&lt;dependencies&gt;</span></span>
-      <span style="font-weight: bold"><span style="color: #0000FF">&lt;dependency&gt;</span></span>
-        <span style="font-weight: bold"><span style="color: #0000FF">&lt;groupId&gt;</span></span>org.springframework.cloud<span style="font-weight: bold"><span style="color: #0000FF">&lt;/groupId&gt;</span></span>
-        <span style="font-weight: bold"><span style="color: #0000FF">&lt;artifactId&gt;</span></span>spring-cloud-dependencies<span style="font-weight: bold"><span style="color: #0000FF">&lt;/artifactId&gt;</span></span>
-        <span style="font-weight: bold"><span style="color: #0000FF">&lt;version&gt;</span></span>Camdem<span style="font-weight: bold"><span style="color: #0000FF">&lt;/version&gt;</span></span>
-        <span style="font-weight: bold"><span style="color: #0000FF">&lt;type&gt;</span></span>pom<span style="font-weight: bold"><span style="color: #0000FF">&lt;/type&gt;</span></span>
-        <span style="font-weight: bold"><span style="color: #0000FF">&lt;scope&gt;</span></span>import<span style="font-weight: bold"><span style="color: #0000FF">&lt;/scope&gt;</span></span>
-      <span style="font-weight: bold"><span style="color: #0000FF">&lt;/dependency&gt;</span></span>
-    <span style="font-weight: bold"><span style="color: #0000FF">&lt;/dependencies&gt;</span></span>
-  <span style="font-weight: bold"><span style="color: #0000FF">&lt;/dependencyManagement&gt;</span></span>
+  <span style="font-weight: bold"><span style="color: #0000FF">&lt;dependency&gt;</span></span>
+          <span style="font-weight: bold"><span style="color: #0000FF">&lt;groupId&gt;</span></span>org.springframework.cloud<span style="font-weight: bold"><span style="color: #0000FF">&lt;/groupId&gt;</span></span>
+          <span style="font-weight: bold"><span style="color: #0000FF">&lt;artifactId&gt;</span></span>spring-cloud-config-server<span style="font-weight: bold"><span style="color: #0000FF">&lt;/artifactId&gt;</span></span>
+  <span style="font-weight: bold"><span style="color: #0000FF">&lt;/dependency&gt;</span></span>
   ...</tt></pre></div></div>
 </div>
 </div>
+<div class="sect1 slide">
+<h1 id="_implémentation_d_8217_un_config_server_3">Implémentation d&#8217;un Config Server</h1>
+<div class="sectionbody" style="max-width:45em">
+<div class="listingblock">
+<div class="title">ConfigServer.java</div>
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>package com.invivoo.springcloud.configserver;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.config.server.EnableConfigServer;
+
+@EnableConfigServer
+@SpringBootApplication
+public class ConfigServer {
+  public static void main(String[] args) {
+    SpringApplication.run(ConfigServer.class, args);
+  }
+}</tt></pre></div></div>
+</div>
 </div>
 <div class="sect1 slide">
-<h1 id="_spring_cloud_config_client">Spring Cloud Config - Client</h1>
+<h1 id="_implémentation_d_8217_un_config_server_4">Implémentation d&#8217;un Config Server</h1>
 <div class="sectionbody" style="max-width:45em">
-<div class="paragraph"><p>TBD</p></div>
+<div class="listingblock">
+<div class="title">application.properties</div>
+<div class="content">
+<pre><code>server.port: 8888
+spring.cloud.config.server.git.uri: file://${user.home}/config-repo</code></pre>
+</div></div>
 </div>
 </div>
 <div class="sect1 slide">
-<h1 id="_spring_cloud_netflix">Spring Cloud Netflix</h1>
+<h1 id="_atelier_5_config_server">Atelier 5 - Config Server</h1>
 <div class="sectionbody" style="max-width:45em">
-<div class="paragraph"><p>TBD</p></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<img alt="Note" src="data:image/png;base64,
+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" />
+</td>
+<td class="content">
+<div class="title">Repository de configuration</div><a href="https://github.com/daniellavoie/formation-spring-cloud.git">https://github.com/daniellavoie/formation-spring-cloud.git</a></td>
+</tr></table>
+</div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<img alt="Note" src="data:image/png;base64,
+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" />
+</td>
+<td class="content">
+<div class="title">Pour tester votre serveur :</div><a href="http://localhost:8888/atelier-5/prod/config">http://localhost:8888/atelier-5/prod/config</a></td>
+</tr></table>
+</div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<img alt="Note" src="data:image/png;base64,
+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" />
+</td>
+<td class="content">
+<div class="title">Pour un affichage JSON formaté depuis votre navigateur :</div><a href="https://jsonview.com/">https://jsonview.com/</a></td>
+</tr></table>
+</div>
+</div>
+</div>
+<div class="sect1 slide">
+<h1 id="_spring_cloud_config_client">Spring Cloud Config Client</h1>
+<div class="sectionbody" style="max-width:45em">
+<div class="paragraph"><p>A son démarrage, le client tentera de localiser un fichier
+<code>bootstrap.properties</code> dans la racine du classpath de l&#8217;application.
+Dans ce fichier doit figurer toutes les configurations nécessaire pour que le
+service puisse contacter le Config Server et récupérer ses configurations.</p></div>
+<div class="listingblock">
+<div class="title">bootstrap.properties</div>
+<div class="content">
+<pre><code>spring.cloud.config.uri=      # URL du Config Server
+spring.cloud.config.label=    # Branche sur laquelle les configurations
+                              # sont situées
+spring.cloud.config.username= # Utilisateur Git
+spring.cloud.config.password= # Mot de passe Git
+spring.cloud.config.failFast= # Empêche le service de démarrer si à
+                              # 'true'.</code></pre>
+</div></div>
+<div class="listingblock">
+<div class="title">pom.xml</div>
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>  ...
+  <span style="font-weight: bold"><span style="color: #0000FF">&lt;dependencies&gt;</span></span>
+    <span style="font-weight: bold"><span style="color: #0000FF">&lt;dependency&gt;</span></span>
+      <span style="font-weight: bold"><span style="color: #0000FF">&lt;groupId&gt;</span></span>org.springframework.cloud<span style="font-weight: bold"><span style="color: #0000FF">&lt;/groupId&gt;</span></span>
+      <span style="font-weight: bold"><span style="color: #0000FF">&lt;artifactId&gt;</span></span>spring-cloud-starter-config<span style="font-weight: bold"><span style="color: #0000FF">&lt;/artifactId&gt;</span></span>
+    <span style="font-weight: bold"><span style="color: #0000FF">&lt;/dependency&gt;</span></span>
+  <span style="font-weight: bold"><span style="color: #0000FF">&lt;/dependencies&gt;</span></span>
+  ...</tt></pre></div></div>
+</div>
+</div>
+<div class="sect1 slide">
+<h1 id="_atelier_6_config_server">Atelier 6 - Config Server</h1>
+<div class="sectionbody" style="max-width:45em">
 </div>
 </div>
 <div class="sect1 slide">
 <h1 id="_spring_cloud_netflix_eureka">Spring Cloud Netflix - Eureka</h1>
 <div class="sectionbody" style="max-width:45em">
-<div class="paragraph"><p>TBD</p></div>
+<div class="paragraph"><p>Quelques caractéristiques sur le serveur Eureka :</p></div>
+<ul class="">
+<li>
+<span>
+Construit spécialement pour un être hautement disponible.
+</span>
+</li>
+<li>
+<span>
+API HTTP Rest.
+</span>
+</li>
+<li>
+<span>
+Ne fournit pas de notification sur la mise à jour du registre.
+</span>
+</li>
+<li>
+<span>
+Synchronise automatiquement son état avec les autres instances Eureka.
+</span>
+</li>
+<li>
+<span>
+Ne s&#8217;impose pas entre le client et le serveur.
+</span>
+</li>
+</ul>
 </div>
 </div>
 <div class="sect1 slide">
 <h1 id="_spring_cloud_netflix_eureka_server">Spring Cloud Netflix - Eureka Server</h1>
 <div class="sectionbody" style="max-width:45em">
-<div class="paragraph"><p>TBD</p></div>
+<div class="listingblock">
+<div class="title">Importation des dépendences</div>
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>    ...
+    <span style="font-weight: bold"><span style="color: #0000FF">&lt;dependency&gt;</span></span>
+      <span style="font-weight: bold"><span style="color: #0000FF">&lt;groupId&gt;</span></span>org.springframework.cloud<span style="font-weight: bold"><span style="color: #0000FF">&lt;/groupId&gt;</span></span>
+      <span style="font-weight: bold"><span style="color: #0000FF">&lt;artifactId&gt;</span></span>spring-cloud-starter-eureka-server<span style="font-weight: bold"><span style="color: #0000FF">&lt;/artifactId&gt;</span></span>
+    <span style="font-weight: bold"><span style="color: #0000FF">&lt;/dependency&gt;</span></span>
+    ...</tt></pre></div></div>
+<div class="listingblock">
+<div class="title">EurekaServer.java</div>
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>  @EnableEurekaServer
+  @SpringBootApplication
+  <span style="font-weight: bold"><span style="color: #0000FF">public</span></span> <span style="font-weight: bold"><span style="color: #0000FF">class</span></span> <span style="color: #008080">EurekaServer</span> <span style="color: #FF0000">{</span>
+        <span style="font-weight: bold"><span style="color: #0000FF">public</span></span> <span style="font-weight: bold"><span style="color: #0000FF">static</span></span> <span style="color: #009900">void</span> <span style="font-weight: bold"><span style="color: #000000">main</span></span><span style="color: #990000">(</span>String<span style="color: #990000">[]</span> args<span style="color: #990000">)</span> <span style="color: #FF0000">{</span>
+                SpringApplication<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">run</span></span><span style="color: #990000">(</span>EurekaServer<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #0000FF">class</span></span><span style="color: #990000">,</span> args<span style="color: #990000">);</span>
+        <span style="color: #FF0000">}</span>
+  <span style="color: #FF0000">}</span></tt></pre></div></div>
 </div>
 </div>
 <div class="sect1 slide">
 <h1 id="_spring_cloud_netflix_eureka_client">Spring Cloud Netflix - Eureka Client</h1>
+<div class="sectionbody" style="max-width:45em">
+<div class="paragraph"><p>Le module client d&#8217;eureka permet requêter</p></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<img alt="Note" src="data:image/png;base64,
+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" />
+</td>
+<td class="content">
+<div class="title">C&#8217;est possible sans Eureka ?</div>Spring Cloud a construit une abstraction au dessus du client Eureka. Il s&#8217;agit
+du <code>DiscoveryClient</code>. Toutes implémentations du DiscoveryClient assure une
+compatibilité aux autres solution de Service Discovery avec la stack Spring
+Cloud.</td>
+</tr></table>
+</div>
+</div>
+</div>
+<div class="sect1 slide">
+<h1 id="_configuration_du_client_eureka">Configuration du client Eureka</h1>
+<div class="sectionbody" style="max-width:45em">
+<div class="listingblock">
+<div class="title">Importation des dépendences</div>
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>    ...
+    <span style="font-weight: bold"><span style="color: #0000FF">&lt;dependency&gt;</span></span>
+      <span style="font-weight: bold"><span style="color: #0000FF">&lt;groupId&gt;</span></span>org.springframework.cloud<span style="font-weight: bold"><span style="color: #0000FF">&lt;/groupId&gt;</span></span>
+      <span style="font-weight: bold"><span style="color: #0000FF">&lt;artifactId&gt;</span></span>spring-cloud-starter-eureka<span style="font-weight: bold"><span style="color: #0000FF">&lt;/artifactId&gt;</span></span>
+    <span style="font-weight: bold"><span style="color: #0000FF">&lt;/dependency&gt;</span></span>
+    ...</tt></pre></div></div>
+<div class="listingblock">
+<div class="title">application.properties</div>
+<div class="content">
+<pre><code>spring.application.name= # Le nom de l'application doit être renseigné.
+eureka.client.serviceUrl.defaultZone=http://localhost:8761/eureka</code></pre>
+</div></div>
+</div>
+</div>
+<div class="sect1 slide">
+<h1 id="_eureka_client_avec_config_server">Eureka Client avec Config Server</h1>
 <div class="sectionbody" style="max-width:45em">
 <div class="paragraph"><p>TBD</p></div>
 </div>

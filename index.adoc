@@ -78,7 +78,7 @@ Et la haute disponibilité c'est gratuit ?
 
 Et bien non ! Eclater un service à travers le réseau n'a pas que des avantages.
 Une architecture orienté micro service est certe plus  élastique et maléable,
-cependant elle introduit des réalités pour lesquels des solutions sont
+cependant elle introduit des contraintres pour lesquels des solutions sont
 nécessaire.
 
 * Service Discovery
@@ -478,7 +478,7 @@ importe des dépendences Spring Cloud.
       <dependency>
         <groupId>org.springframework.cloud</groupId>
         <artifactId>spring-cloud-dependencies</artifactId>
-        <version>Camdem</version>
+        <version>Camden.RELEASE</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -572,17 +572,10 @@ Implémentation d'un Config Server
 .pom.xml
 ----
   ...
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>org.springframework.cloud</groupId>
-        <artifactId>spring-cloud-dependencies</artifactId>
-        <version>Camdem</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
+  <dependency>
+	  <groupId>org.springframework.cloud</groupId>
+	  <artifactId>spring-cloud-config-server</artifactId>
+  </dependency>
   ...
 ----
 
@@ -611,36 +604,138 @@ public class ConfigServer {
 Implémentation d'un Config Server
 ---------------------------------
 
-.Configuration du Config Server
-[source]
 .application.properties
 ----
 server.port: 8888
 spring.cloud.config.server.git.uri: file://${user.home}/config-repo
 ----
 
-Spring Cloud Config - Client
-----------------------------
+Atelier 5 - Config Server
+-------------------------
 
-TBD
+.Repository de configuration
+[NOTE]
+https://github.com/daniellavoie/formation-spring-cloud.git
 
-Spring Cloud Netflix
---------------------
+.Pour tester votre serveur :
+[NOTE]
+http://localhost:8888/atelier-5/prod/config
 
-TBD
+.Pour un affichage JSON formaté depuis votre navigateur :
+[NOTE]
+https://jsonview.com/
+
+
+Spring Cloud Config Client
+--------------------------
+
+A son démarrage, le client tentera de localiser un fichier
+`bootstrap.properties` dans la racine du classpath de l'application.
+Dans ce fichier doit figurer toutes les configurations nécessaire pour que le
+service puisse contacter le Config Server et récupérer ses configurations.
+
+.bootstrap.properties
+----
+spring.cloud.config.uri=      # URL du Config Server
+spring.cloud.config.label=    # Branche sur laquelle les configurations
+                              # sont situées
+spring.cloud.config.username= # Utilisateur Git
+spring.cloud.config.password= # Mot de passe Git
+spring.cloud.config.failFast= # Empêche le service de démarrer si à
+                              # 'true'.
+----
+
+.Dépendences
+
+[source,xml]
+.pom.xml
+----
+  ...
+  <dependencies>
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-config</artifactId>
+    </dependency>
+  </dependencies>
+  ...
+----
+
+Atelier 6 - Config Server
+-------------------------
+
 
 Spring Cloud Netflix - Eureka
 -----------------------------
 
-TBD
+Quelques caractéristiques sur le serveur Eureka :
+
+* Construit spécialement pour un être hautement disponible.
+* API HTTP Rest.
+* Ne fournit pas de notification sur la mise à jour du registre.
+* Synchronise automatiquement son état avec les autres instances Eureka.
+* Ne s'impose pas entre le client et le serveur.
 
 Spring Cloud Netflix - Eureka Server
 ------------------------------------
 
-TBD
+[source,xml]
+.Importation des dépendences
+----
+    ...
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-eureka-server</artifactId>
+    </dependency>
+    ...
+----
+
+[source,java]
+.EurekaServer.java
+----
+  @EnableEurekaServer
+  @SpringBootApplication
+  public class EurekaServer {
+  	public static void main(String[] args) {
+  		SpringApplication.run(EurekaServer.class, args);
+  	}
+  }
+----
 
 Spring Cloud Netflix - Eureka Client
 ------------------------------------
+
+Le module client d'eureka permet requêter
+
+.C'est possible sans Eureka ?
+[NOTE]
+Spring Cloud a construit une abstraction au dessus du client Eureka. Il s'agit
+du `DiscoveryClient`. Toutes implémentations du DiscoveryClient assure une
+compatibilité aux autres solution de Service Discovery avec la stack Spring
+Cloud.
+
+Configuration du client Eureka
+------------------------------
+
+[source,xml]
+.Importation des dépendences
+----
+    ...
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-eureka</artifactId>
+    </dependency>
+    ...
+----
+
+.application.properties
+----
+spring.application.name= # Le nom de l'application doit être renseigné.
+eureka.client.serviceUrl.defaultZone=http://localhost:8761/eureka
+----
+
+
+Eureka Client avec Config Server
+--------------------------------
 
 TBD
 
