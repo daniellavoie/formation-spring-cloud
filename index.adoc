@@ -613,6 +613,9 @@ spring.cloud.config.server.git.uri: file://${user.home}/config-repo
 Atelier 5 - Config Server
 -------------------------
 
+.Objectif:
+* Packager un serveur de configuration déployable.
+
 .Repository de configuration
 [NOTE]
 https://github.com/daniellavoie/formation-spring-cloud.git
@@ -660,9 +663,12 @@ spring.cloud.config.failFast= # Empêche le service de démarrer si à
   ...
 ----
 
-Atelier 6 - Config Server
+Atelier 6 - Config Client
 -------------------------
 
+.Objectif:
+* Produire un microservice qui arrive à charger ses configurations depuis un
+  config server
 
 Spring Cloud Netflix - Eureka
 -----------------------------
@@ -701,10 +707,26 @@ Spring Cloud Netflix - Eureka Server
   }
 ----
 
+.application.properties
+----
+server.port=8761
+spring.application.name=eureka-server
+eureka.client.serviceUrl.defaultZone=http://localhost:8761/eureka
+----
+
+Atelier 8 - Serveur Eureka
+--------------------------
+
+.Objectif:
+* Packager un jar permattant d'héberger un serveur Eureka.
+* Consulter le dashboard Eureka.
+
 Spring Cloud Netflix - Eureka Client
 ------------------------------------
 
-Le module client d'eureka permet requêter
+Le client Eureka mêt à notre disposition une implémentation de l'interface
+`EurekaClient`. Cette dernière sera initialisé par l'AutoConfiguration du
+module `spring-cloud-starter-eureka`.
 
 .C'est possible sans Eureka ?
 [NOTE]
@@ -733,21 +755,42 @@ spring.application.name= # Le nom de l'application doit être renseigné.
 eureka.client.serviceUrl.defaultZone=http://localhost:8761/eureka
 ----
 
+Atelier 8 - Consultation du service registry
+--------------------------------------------
 
-Eureka Client avec Config Server
---------------------------------
-
-TBD
+.Objectifs:
+* Implémentation d'un client qui s'enregistre dans un serveur Eureka.
 
 Spring Cloud Netflix - Spring Cloud Dashboard
 ---------------------------------------------
 
-TBD
+Le Spring Cloud Dashboard est un projet Open Source piloté par Julien Roy.
+
+Il propose une interface Eureka spécialement adapté aux applications développé
+avec Spring Boot qui sont enregistré sur Eureka.
+
+.Url du projet
+[NOTE]
+https://github.com/VanRoy/spring-cloud-dashboard
+
+Atelier 9 - Déploiement du Spring Cloud Dashboard
+-------------------------------------------------
+
+.Objectifs:
+* Builder et déployer le Spring Cloud Dashboard
 
 Spring Cloud Netflix - Ribbon
 -----------------------------
 
-TBD
+Ribbon se présente comme un load balancer client. Sa particuliarité est de
+venir s'incruster dans le `RestTemplate` de Spring. Ribbon prend son
+intérêt lorsqu'il est utilisé avec un client Eureka. La configuration
+par défaut des starter Spring Cloud s'occupera de gérer pour nous la service
+discovery directement au sein du `RestTemplate`.
+
+.Aller plus loin avec Ribbon
+[NOTE]
+https://spring.io/guides/gs/client-side-load-balancing/
 
 Spring Cloud Netflix - Feign
 ----------------------------
