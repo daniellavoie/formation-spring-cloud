@@ -760,14 +760,15 @@ Atelier 8 - Consultation du service registry
 
 .Objectifs:
 * Implémentation d'un client qui s'enregistre dans un serveur Eureka.
+* Utiliser le DiscoveryClient pour requêter le service discovery.
 
 Spring Cloud Netflix - Spring Cloud Dashboard
 ---------------------------------------------
 
 Le Spring Cloud Dashboard est un projet Open Source piloté par Julien Roy.
 
-Il propose une interface Eureka spécialement adapté aux applications développé
-avec Spring Boot qui sont enregistré sur Eureka.
+Il propose une interface non officiel pour Eureka spécialement adapté aux
+applications développé avec Spring Boot qui sont enregistré sur Eureka.
 
 .Url du projet
 [NOTE]
