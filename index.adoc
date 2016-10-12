@@ -1,6 +1,6 @@
 Formation Spring Cloud
 ======================
-:author:    Daniel Lavoie
+:author:  Daniel Lavoie
 :copyright: Daniel Lavoie
 :backend:   slidy
 :max-width: 45em
@@ -110,7 +110,7 @@ entre eux.
 image::images/problems/service-discovery-1.png[]
 
 Avec cette configuration, chaque instance de service doit connaitre les adresses
-permettant de rejoindre ses dépendences. Très rapidement, ce modèle ne tient pas
+permettant de rejoindre ses dépendances. Très rapidement, ce modèle ne tient pas
 la route. Spécialement dans un context où des instances sont déployées à la
 demande.
 
@@ -122,7 +122,7 @@ de service hautement disponible. Chaque instance de la plateform peut donc
 contacter le composant Service Discovery pour s'enregistrer et récupérer les
 adresses de tous les services composant la plateforme. Les applications clientes
 d'un registre de services doivent donc être penser pour s'adapter dynamiquement
-aux adresses de leur dépendences.
+aux adresses de leur dépendances.
 
 image::images/problems/service-discovery-2.png[]
 
@@ -209,7 +209,7 @@ image::images/problems/long-queue.jpeg[]
 == De bonnes pratiques
 
 * Fail Fast
-* Mise en quarantaines des dépendences indisponibles
+* Mise en quarantaines des dépendances indisponibles
 
 Messaging
 ---------
@@ -277,15 +277,15 @@ Quelques modules exemples Spring Boot
 
 [frame="topbot",options="header"]
 |======================
-|Nom      |Description
-|spring-boot-starter-web          | Support for développement de la pile web
-                                    complête en incluant Tomcat et spring-webmvc.
-|spring-boot-starter-data-jpa     | Support pour “Java Persistence API” en
-                                    incluant spring-data-jpa, spring-orm et
-                                    Hibernate.
-|spring-boot-starter-security     | Support pour spring-security.
+|Nom    |Description
+|spring-boot-starter-web      | Support for développement de la pile web
+                  complête en incluant Tomcat et spring-webmvc.
+|spring-boot-starter-data-jpa   | Support pour “Java Persistence API” en
+                  incluant spring-data-jpa, spring-orm et
+                  Hibernate.
+|spring-boot-starter-security   | Support pour spring-security.
 |spring-boot-starter-data-mongodb | Support pour la base de données NoSQL
-                                    MongoDB en incluant spring-data-mongodb.
+                  MongoDB en incluant spring-data-mongodb.
 |======================
 
 .Liste complête de tous les starters
@@ -299,20 +299,20 @@ Concepts Clés de Spring Boot
 [source,xml]
 ----
   <parent>
-    <artifactId>spring-boot-starter-parent</artifactId>
-    <groupId>org.springframework.boot</groupId>
-    <version>1.4.0.RELEASE</version>
+  <artifactId>spring-boot-starter-parent</artifactId>
+  <groupId>org.springframework.boot</groupId>
+  <version>1.4.0.RELEASE</version>
   </parent>
 ----
 
-.Dépendences minimales
+.Dépendances minimales
 [source,xml]
 ----
   <dependencies>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter</artifactId>
-    </dependency>
+  <dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter</artifactId>
+  </dependency>
   </dependencies>
 ----
 
@@ -340,18 +340,18 @@ import org.springframework.stereotype.Service;
 @SpringBootApplication
 public class PlanApplication {
   public static void main(String[] args) {
-    System.out.println(
-      SpringApplication.run(PlanApplication.class, args)
-        .getBean(SuperService.class)
-        .ping()
-    );
+  System.out.println(
+    SpringApplication.run(PlanApplication.class, args)
+    .getBean(SuperService.class)
+    .ping()
+  );
   }
 
   @Service
   public class SuperService {
-    public String ping() {
-      return "pong";
-    }
+  public String ping() {
+    return "pong";
+  }
   }
 }
 ----
@@ -364,12 +364,12 @@ Packaging de l'application
 [source,xml]
 ----
   <build>
-    <plugins>
-      <plugin>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-maven-plugin</artifactId>
-      </plugin>
-    </plugins>
+  <plugins>
+    <plugin>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-maven-plugin</artifactId>
+    </plugin>
+  </plugins>
   </build>
 ----
 
@@ -385,11 +385,11 @@ $ mvn package
 $ java -jar target/my-app.jar
 ----
 
-Atelier 1 - Injection de dépendences
+Atelier 1 - Injection de dépendances
 ------------------------------------
 
 * Démarrage d'un conteneur Spring
-* Injection de dépendencence.
+* Injection de dépendancence.
 * Injection de configuration.
 * Test unitaire et test d'intégration.
 
@@ -467,22 +467,22 @@ Utiliser Spring Cloud dans une application Spring Boot
 ------------------------------------------------------
 
 Rien de plus simple ! Il suffit de créer une application Spring Boot qui
-importe des dépendences Spring Cloud.
+importe des dépendances Spring Cloud.
 
 [source,xml]
 .pom.xml
 ----
   ...
   <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>org.springframework.cloud</groupId>
-        <artifactId>spring-cloud-dependencies</artifactId>
-        <version>Camden.RELEASE</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-    </dependencies>
+  <dependencies>
+    <dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-dependencies</artifactId>
+    <version>Camden.RELEASE</version>
+    <type>pom</type>
+    <scope>import</scope>
+    </dependency>
+  </dependencies>
   </dependencyManagement>
   ...
 ----
@@ -556,7 +556,7 @@ Implémentation d'un Config Server
 ---------------------------------
 
 Implémenter un config server est très simple. Il s'agit d'une simple application
-Spring Boot avec des dépendences spécifique et sur laquelle l'annotation
+Spring Boot avec des dépendances spécifique et sur laquelle l'annotation
 `@EnableConfigServer` a été déclaré. C'est le minimum requis pour obtenir un
 serveur de configuration.
 
@@ -567,7 +567,7 @@ serveur de configuration.
 Implémentation d'un Config Server
 ---------------------------------
 
-.Importation des dépendences
+.Importation des dépendances
 [source,xml]
 .pom.xml
 ----
@@ -596,7 +596,7 @@ import org.springframework.cloud.config.server.EnableConfigServer;
 @SpringBootApplication
 public class ConfigServer {
   public static void main(String[] args) {
-    SpringApplication.run(ConfigServer.class, args);
+  SpringApplication.run(ConfigServer.class, args);
   }
 }
 ----
@@ -639,26 +639,26 @@ service puisse contacter le Config Server et récupérer ses configurations.
 
 .bootstrap.properties
 ----
-spring.cloud.config.uri=      # URL du Config Server
-spring.cloud.config.label=    # Branche sur laquelle les configurations
-                              # sont situées
+spring.cloud.config.uri=    # URL du Config Server
+spring.cloud.config.label=  # Branche sur laquelle les configurations
+                # sont situées
 spring.cloud.config.username= # Utilisateur Git
 spring.cloud.config.password= # Mot de passe Git
 spring.cloud.config.failFast= # Empêche le service de démarrer si à
-                              # 'true'.
+                # 'true'.
 ----
 
-.Dépendences
+.Dépendances
 
 [source,xml]
 .pom.xml
 ----
   ...
   <dependencies>
-    <dependency>
-      <groupId>org.springframework.cloud</groupId>
-      <artifactId>spring-cloud-starter-config</artifactId>
-    </dependency>
+  <dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-config</artifactId>
+  </dependency>
   </dependencies>
   ...
 ----
@@ -685,14 +685,14 @@ Spring Cloud Netflix - Eureka Server
 ------------------------------------
 
 [source,xml]
-.Importation des dépendences
+.Importation des dépendances
 ----
-    ...
-    <dependency>
-      <groupId>org.springframework.cloud</groupId>
-      <artifactId>spring-cloud-starter-eureka-server</artifactId>
-    </dependency>
-    ...
+  ...
+  <dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-eureka-server</artifactId>
+  </dependency>
+  ...
 ----
 
 [source,java]
@@ -714,7 +714,7 @@ spring.application.name=eureka-server
 eureka.client.serviceUrl.defaultZone=http://localhost:8761/eureka
 ----
 
-Atelier 8 - Serveur Eureka
+Atelier 9 - Serveur Eureka
 --------------------------
 
 .Objectif:
@@ -739,14 +739,14 @@ Configuration du client Eureka
 ------------------------------
 
 [source,xml]
-.Importation des dépendences
+.Importation des dépendances
 ----
-    ...
-    <dependency>
-      <groupId>org.springframework.cloud</groupId>
-      <artifactId>spring-cloud-starter-eureka</artifactId>
-    </dependency>
-    ...
+  ...
+  <dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-eureka</artifactId>
+  </dependency>
+  ...
 ----
 
 .application.properties
@@ -789,51 +789,296 @@ intérêt lorsqu'il est utilisé avec un client Eureka. La configuration
 par défaut des starter Spring Cloud s'occupera de gérer pour nous la service
 discovery directement au sein du `RestTemplate`.
 
+.Dépendance Spring Cloud Ribbon
+[source,xml]
+----
+  <dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-ribbon</artifactId>
+  </dependency>
+----
+
 .Aller plus loin avec Ribbon
 [NOTE]
 https://spring.io/guides/gs/client-side-load-balancing/
 
+Récupération d'un RestTemplate Ribbon
+-------------------------------------
+
+Pour une utilisation de Ribbon avec gestion du service discovery, il est
+nécessaire que l'application ait activé l'annotation '@EnableDiscoveryClient'.
+Une fois ce prérequis pris en compte, il suffit de déclarer un RestTemplate
+avec `@LoadBalanced`.
+
+.Instancier un client Ribbon
+[source,java]
+----
+@Bean
+@LoadBalanced
+public RestTemplate restTemplate(){
+  return new RestTemplate();
+}
+----
+
+Failover automatique sur Ribbon
+-------------------------------
+
+Avec Spring Cloud, le retry automatique sur les différents noeuds du Load Balancer
+Ribbon sera possible seulement si l'application a intégré Hystrix et activé
+l'annotation `@EnableCircuitBreaker`. Voir la section Hystrix pour plus de
+détails.
+
 Spring Cloud Netflix - Feign
 ----------------------------
 
-TBD
+Le code de gestion autour du RestTemplate peut rapidement devenir répétitif.
+Par conséquent, la librairie Feign permet d'apporter une approche déclarative
+à l'implémentation de client REST.
+
+Des annotations Spring MVC ou Jersey permettent de déclarer à Feign comment
+il devra binder notre client aux Web Service de notre choix.
+
+Feign utilise Ribbon, par conséquent le nom du client feign doit correspondre
+à un service déclarer avec Ribbon ou bien récupéré depuis un Service Discovery.
+
+[source,java]
+.Exemple d'un client Feign
+----
+@FeignClient("PRODUCT-SERVER")
+public interface ProductClient {
+	@RequestMapping("/product/{ean13}")
+	Product findOne(@PathVariable(name = "ean13") String ean13);
+}
+----
+
+Pour intégrer Feign dans son projet
+-----------------------------------
+
+.Dépendance pour Feign
+[source,xml]
+----
+  ...
+  <dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-feign</artifactId>
+  </dependency>
+  ....
+----
+
+.Activation de Feign
+[source,java]
+----
+@EnableFeignClients
+@SpringBootApplication
+@EnableDiscoveryClient
+public class InvoiceServer {
+  public static void main(String[] args) {
+  SpringApplication.run(InvoiceServer.class, args);
+  }
+}
+----
 
 Spring Cloud Netflix - Hystrix
 ------------------------------
 
-TBD
+Les systèmes sont malheureusement tous imprévisible. Peu importe l'effort
+investi sur à rentre le système réslient, il y aura toujours un cas où une
+dépendance ne sera pas joignable. Hystrix permet de prendre le controle
+de manière élégante sur ces dépendances et nous donnent l'opportunité de
+prévoir un traitement de secours lorsque qu'une dépendance ne répond plus.
+
+.Le Circuit Breaker en détails
+[NOTE]
+http://martinfowler.com/bliki/CircuitBreaker.html
+
+Spring Cloud Netflix - Hystrix
+------------------------------
+
+image::images/solutions/hystrix-1.png[]
+
+Spring Cloud Netflix - Hystrix
+------------------------------
+
+image::images/solutions/hystrix-2.png[]
+
+Intégrer Hystrix dans un projet Spring Cloud
+--------------------------------------------
+
+.Importation de dépendance.
+[source,xml]
+.pom.xml
+----
+  <dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-hystrix</artifactId>
+  </dependency>
+----
+
+Déclaration d'un fallback
+-------------------------
+
+.Commande Hystrix
+[source,java]
+----
+@HystrixCommand(fallbackMethod = "fallback")
+public List<String> method() {
+  return dependency.method();
+}
+
+public List<String> fallback( {
+  return Arrays.asList();
+}
+----
+
+Atelier 10 - Test de fallback
+-----------------------------
+
+.Objectif:
+* Utiliser une commande Hystrix pour fournir un fallback sur un service.
+* Même en cas de perte total de dépendance, le service doit rester disponible.
 
 Spring Cloud Netflix - Zuul
 ----------------------------
 
-TBD
+Zuul est un Reverse Proxy HTTP architecture. Il est utilisé par Netflix pour les
+besoins suivant :
 
-Spring Cloud Stream
+* Authentification
+* Stress tests
+* Routage dynamique
+* Migration de service
+* Répartition de charge
+
+Zuul supporte un système de filtre pouvant être écrit en Java ou en Groovy.
+
+Zuul avec Spring Cloud
+----------------------
+
+L'utilisation principale au sein de Spring Cloud pour Zuul se résume à un
+role de reverse proxy pour abstraire la complexité d'une architecture aux
+clients externe. L'intégration avec le Service Discovery de Spring Cloud
+et l'utilisation de Ribbon rend ce travail de redirection presque transparant.
+
+Par défaut, Zuul expoera tous les services Eureka à travers l'url
+`/servierId/**`. Une fois la requête passé le proxy, la première partie de son
+URL sera supprimé afin que le reste de la requête soit redirigé au service
+cible.
+
+Un projet avec Zuul
 -------------------
 
-TBD
+.Déclaration de dépendanes
+[source,xml]
+.pom.Xml
+----
 
-Spring Cloud Bus
-----------------
+----
 
-TBD
+[NOTE]
+Le retry automatique de Zuul après une première erreur se doit d'être configuré
+manuellement avec la configuration `zuul.routes.route-name.retryable=true`.
+Autrement Zuul retournera des erreurs lorsque l'un des microservice qu'il
+tente d'appeller est indisponible.
 
 Spring Cloud Sleuth
 -------------------
 
-TBD
+Sleuth vise à répondre à la problématique des services de tracage distribué
+imposé par les architecture microservice. De manière transparante,
 
-Spring Cloud Zookeeper
-----------------------
+Sleuth consiste en une implémentation de l'essaie Dapper rédigé par Google
 
-TBD
+[NOTE]
+.Etude sur le tracage distribué par google
+http://research.google.com/pubs/pub36356.html
+
+Récupérer des logs Sleuth avec Logstash
+---------------------------------------
+
+.Pour une sortie console
+----
+filter {
+  # pattern matching logback pattern
+  grok {
+  match => { "message" => "%{TIMESTAMP_ISO8601:timestamp}\s+%{LOGLEVEL:severity}\s+\[%{DATA:service},%{DATA:trace},%{DATA:span},%{DATA:exportable}\]\s+%{DATA:pid}---\s+\[%{DATA:thread}\]\s+%{DATA:class}\s+:\s+%{GREEDYDATA:rest}" }
+  }
+}
+----
+
+.Pour une sortie Cloud Foundry
+----
+filter {
+  # pattern matching logback pattern
+  grok {
+  match => { "message" => "(?m)OUT\s+%{TIMESTAMP_ISO8601:timestamp}\s+%{LOGLEVEL:severity}\s+\[%{DATA:service},%{DATA:trace},%{DATA:span},%{DATA:exportable}\]\s+%{DATA:pid}---\s+\[%{DATA:thread}\]\s+%{DATA:class}\s+:\s+%{GREEDYDATA:rest}" }
+  }
+}
+----
+
+Spring Cloud Stream
+-------------------
+
+Spring Cloud Stream se veut comme une boite à outil pour simplifier la
+messagerie entre application de type microservice. Les services en fesant usage
+auront besoin de se reposer sur un broker externe.
+
+Le projet vise à standardiser la déclaration et la configuration des queues
+de production et de consommation.
+
+image::images/solutions/spring-cloud-stream-1.png[]
+
+Un exemple de messagerie déclarative avec Stream
+------------------------------------------------
+
+[source,java]
+.CloudStreamApplication.java
+----
+@SpringBootApplication
+public class StreamApplication {
+
+  public static void main(String[] args) {
+    SpringApplication.run(StreamApplication.class, args);
+  }
+}
+
+@EnableBinding(Sink.class)
+public class TimerSource {
+
+  ...
+
+  @StreamListener(Sink.INPUT)
+  public void processVote(Vote vote) {
+    votingService.recordVote(vote);
+  }
+}
+----
+
+Spring Cloud Stream
+-------------------
+
+.Pour plus de détails sur Spring Cloud Stream
+[NOTE]
+http://docs.spring.io/spring-cloud-stream/docs/current/reference/htmlsingle/index.html
 
 Spring Cloud Security
 ---------------------
 
-TBD
+Spring Cloud préconise l'utilisation de OAuth pour l'authentification à
+travers votre plateforme. Par conséquent la projet Spring Cloud Security
+offre les fonctionnalités suivantes :
 
-Prêt pour la production ?
--------------------------
+* Relais de token SSO provenant des frontaux Zuul vers les services backend.
+* Relais de token entre les serveurs de resources.
+* Intercepteur Feign adapté pour requêter des service sécurisé avec OAuth.
 
-- Instance HA
+Spring Cloud Bus
+----------------
+
+Module plutot expériental qui permet aux application Spring Cloud de mettre
+à jour leur configuration Spring dynamiquement. Ce système se base
+sur Kafka ou AMQP. Dans l'esprit, le bus sert à communiquer des messages à tous
+les noeuds qui répondent au même service Eureka.
+
+.Plus de détails sur Spring Cloud Bus
+[NOTE]
+http://cloud.spring.io/spring-cloud-static/spring-cloud.html#_spring_cloud_bus
