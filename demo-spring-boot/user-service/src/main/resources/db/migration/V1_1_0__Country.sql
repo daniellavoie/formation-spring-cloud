@@ -1,0 +1,1 @@
+ALTER TABLE USER ADD country varchar(255) not null;

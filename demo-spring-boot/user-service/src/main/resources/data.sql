@@ -1,0 +1,1 @@
+INSERT INTO USER (email, first_name, last_name, age, country) VALUES ('dlavoie@live.ca', 'Daniel', 'Lavoie', 29, 'Canada');
