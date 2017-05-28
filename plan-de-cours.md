@@ -24,7 +24,7 @@
 
 ## Jour 3
 
-* Présentation des projets Spring Cloud Satelites
+* Présentation des projets Spring Cloud satelites
 * Migration d'une application legacy vers Spring Cloud
 * Stratégie et retours d'expériences sur architectures microservices
 * Déploiements automatisé de microservices
