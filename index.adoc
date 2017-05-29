@@ -11,11 +11,22 @@ Formation Spring Cloud
 <link rel="stylesheet"  href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/3.1.0/css/font-awesome.min.css">
 ++++
 
+A propos de moi
+---------------
+
+image::images/daniel/about-me.png[]
+
 Les applications distribuées modernes ?
 ---------------------------------------
 
-Aujourd'hui, le mot d'ordre est haute disponibilité et scalabilité.
-Comment garantir que notre système respectera cette contrainte ?
+Aujourd'hui, le mot d'ordre est livraison rapide, haute disponibilité et scalabilité. 
+
+Secret de la livraison rapide
+-----------------------------
+
+* Onboarding des contributeurs rapide
+* Testabilité de l'application
+* Chaine de déploiement continue
 
 Quelques pistes pour la haute disponibilité
 -------------------------------------------
@@ -32,6 +43,16 @@ Bref...
 [big]*Des microservices !* +
 
 image::images/solutions/microservices.png[]
+
+Un exemple
+----------
+
+image::images/architecture/classic-stack-example.png[]
+
+Au microscope cette fois-ci
+---------------------------
+
+image::images/architecture/sc-stack-example.png[]
 
 Pourquoi un déploiement multi instance ?
 ----------------------------------------
@@ -72,6 +93,11 @@ mécanisme d'abstraction de l'architecture à ces tiers. Un client ne doit pas e
 ne peut pas connaître la topologie physique des services déployés.
 
 image::images/problems/routage-1.png[]
+
+Routage = Flexibilité
+---------------------
+
+image::images/architecture/zuul.png[]
 
 Et la haute disponibilité c'est gratuit ?
 ----------------------------------------

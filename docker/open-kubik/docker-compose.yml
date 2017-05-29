@@ -1,0 +1,9 @@
+version : '2'
+
+services:
+  es:
+    image: elasticsearch:2.3
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    command: "elasticsearch -Des.node.name='kubik' -Dhttp.cors.enabled=true -Dhttp.cors.allow-origin=*"
